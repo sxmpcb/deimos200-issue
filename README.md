@@ -119,7 +119,11 @@ New (triage) --> Triaged (confirmed + P-level + subsystem) --> In fix --> Ready 
 |   +-- bug_report.yml   # structured defect form
 |   +-- other.md         # test case / process suggestion
 |   +-- config.yml       # template entry configuration
-docs/                    # test plans, test cases, rig notes
+docs/
++-- README.md            # test plans, test cases, rig notes
++-- defect-log.md        # reviewed defect log, source for the issue creation script
+scripts/
++-- create_issues.py     # batch-create the issues from docs/defect-log.md via gh
 ```
 
 ## 9. Collaboration notes
