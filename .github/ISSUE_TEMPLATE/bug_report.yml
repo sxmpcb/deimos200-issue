@@ -1,46 +1,80 @@
 name: 🐞 Test Defect
-description: Report a defect found during testing
+description: Report a defect found while testing the Deimos200 motion controller (MicroPython firmware)
 title: "[Defect] "
 labels: ["bug", "triage"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for reporting. The more detail you provide, the faster we can triage and fix.
-        Please search existing issues first to avoid duplicates.
+        Thanks for reporting. Accurate version and hardware details are essential for a motion controller - please do not leave them blank.
+
+        **SAFETY FIRST**: if this defect involves uncontrolled or unexpected axis motion, loss of position after power cycle,
+        a stalled/overheating motor, or a disabled safety interlock, **stop the test rig immediately** and escalate through
+        the agreed safety channel *in addition to* filing this issue. Mark it `P0` and add the `safety` label.
 
   - type: input
-    id: version
+    id: firmware
     attributes:
-      label: Product version / build
-      description: e.g. v2.3.1 (build 1024)
-      placeholder: v2.3.1 (build 1024)
+      label: Firmware version / build
+      description: Output of the version command, plus build date if available
+      placeholder: v1.4.2 (build 2026-10-18)
+    validations:
+      required: true
+
+  - type: input
+    id: hardware
+    attributes:
+      label: Hardware revision / serial number
+      description: Board revision and unit serial (print on the enclosure or label)
+      placeholder: Rev.C, S/N DM200-02417
+    validations:
+      required: true
+
+  - type: input
+    id: micropython
+    attributes:
+      label: MicroPython version
+      description: Result of `sys.implementation` or `os.uname()`
+      placeholder: micropython 1.22.2 (deimos200-port)
     validations:
       required: true
 
   - type: dropdown
-    id: env
+    id: interface
     attributes:
-      label: Environment
+      label: Host interface used during the test
       options:
-        - iOS
-        - Android
-        - Web - Chrome
-        - Web - Safari
-        - Web - Other browser
-        - Windows desktop
-        - macOS desktop
-        - Backend / API
+        - USB CDC (REPL)
+        - USB CDC (script upload)
+        - UART / RS-485
+        - CAN bus
+        - Ethernet
+        - Wi-Fi
+        - Bluetooth
+        - Standalone (no host connected)
         - Other
     validations:
       required: true
 
-  - type: input
-    id: module
+  - type: dropdown
+    id: subsystem
     attributes:
-      label: Module / area
-      description: e.g. Sign-in, Checkout, Push notifications
-      placeholder: Checkout
+      label: Subsystem
+      description: Which part of the controller is affected?
+      options:
+        - Motion control / trajectory
+        - Axis control (single axis)
+        - Multi-axis synchronisation
+        - Homing / limit switches
+        - Encoder feedback
+        - I/O and GPIO
+        - Fieldbus / protocol stack
+        - MicroPython runtime (REPL, GC, threading)
+        - File system / flash storage
+        - Boot and power-up sequence
+        - OTA / firmware update
+        - Host tooling / SDK
+        - Other
     validations:
       required: true
 
@@ -50,10 +84,10 @@ body:
       label: Severity
       description: Definitions are in the README
       options:
-        - P0 - Blocker (crash / main flow unusable / data loss)
-        - P1 - Critical (major function broken, no workaround)
-        - P2 - Normal (function broken, workaround exists)
-        - P3 - Minor (UI, copy or polish issue)
+        - P0 - Safety or blocker (unexpected motion, crash, unrecoverable state, data loss)
+        - P1 - Critical (core motion function wrong, no workaround)
+        - P2 - Normal (function wrong, workaround exists)
+        - P3 - Minor (usability, diagnostics, documentation)
     validations:
       required: true
 
@@ -63,12 +97,15 @@ body:
       label: Defect type
       options:
         - Functional
-        - Crash / freeze
+        - Motion accuracy / positioning error
+        - Timing, latency or jitter
+        - Firmware crash / hard fault / watchdog reset
+        - Memory issue (OOM, GC, fragmentation)
+        - Communication / protocol
+        - I/O or sensor reading
         - Performance
-        - UI / interaction
-        - Compatibility
         - Security
-        - Data / API
+        - Usability / diagnostics
         - Other
     validations:
       required: true
@@ -77,14 +114,24 @@ body:
     id: steps
     attributes:
       label: Steps to reproduce
-      description: Numbered steps, including preconditions and test data
+      description: Rig setup, axis state and test data, then numbered steps
       placeholder: |
-        Precondition: signed in as test001
-        1. Open "Orders"
-        2. Tap "Pay now"
-        3. Select card and confirm
+        Rig: 2 axes, 400 steps/rev, 24 V supply
+        Precondition: power on, homing completed, no script in boot.py
+        1. Upload repro.py and run it
+        2. Command axis 1 to move 100 mm at 50 mm/s
+        3. Observe the position readback
     validations:
       required: true
+
+  - type: textarea
+    id: script
+    attributes:
+      label: Minimal reproduction script
+      description: Shortest script or REPL sequence that triggers the defect
+      render: python
+    validations:
+      required: false
 
   - type: textarea
     id: expected
@@ -97,6 +144,7 @@ body:
     id: actual
     attributes:
       label: Actual result
+      description: Include measured values where relevant (position error, timing, current draw)
     validations:
       required: true
 
@@ -114,18 +162,19 @@ body:
       required: true
 
   - type: textarea
-    id: attachment
+    id: logs
     attributes:
-      label: Screenshots / screen recording
-      description: Drag and drop images here
+      label: Traceback, error code or serial log
+      description: Paste the full MicroPython traceback and any error/status codes
+      render: shell
     validations:
       required: false
 
   - type: textarea
-    id: logs
+    id: attachment
     attributes:
-      label: Logs / request-response / additional context
-      render: shell
+      label: Screenshots / video / config files
+      description: Drag and drop here. Videos of unexpected motion are especially useful.
     validations:
       required: false
 
@@ -135,4 +184,8 @@ body:
       label: Before submitting
       options:
         - label: I have searched existing issues and this is not a duplicate
+          required: true
+        - label: I have attached the traceback or log for any crash or exception
+          required: false
+        - label: I confirm this is not a safety-critical event (if it is, I have escalated it separately)
           required: true
