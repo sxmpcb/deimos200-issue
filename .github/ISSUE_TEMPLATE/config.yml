@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: 💬 测试问题讨论 / 疑问咨询
-    url: https://github.com/sxmpcb/deimos100-issue/discussions
+    url: https://github.com/sxmpcb/deimos200-issue/discussions
     about: 不确定是否为缺陷、或需要讨论测试方法时，请发到这里，不要新建 Issue。
   - name: 📄 测试用例文档
-    url: https://github.com/sxmpcb/deimos100-issue/tree/main/docs
+    url: https://github.com/sxmpcb/deimos200-issue/tree/main/docs
     about: 查看现有测试用例与测试计划。
