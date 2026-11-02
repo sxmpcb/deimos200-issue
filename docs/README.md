@@ -1,6 +1,6 @@
-# 测试文档
+# Test Documentation
 
-存放测试计划、测试用例、测试报告等文档，与 Issue 记录的缺陷互为补充。
+Stores test plans, test cases and test reports. Complements the defect records kept in Issues.
 
-- 缺陷记录 → 走 [Issue](../../issues)
-- 测试计划 / 用例 → 放在本目录
+- Defects -> see [Issues](../../issues)
+- Test plans / cases -> keep them in this folder

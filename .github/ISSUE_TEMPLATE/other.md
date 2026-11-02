@@ -1,23 +1,23 @@
 ---
-name: 📝 用例补充 / 测试建议
-about: 补充测试用例、提出测试覆盖或流程改进建议（非缺陷）
-title: "[建议] "
+name: 📝 Test Case / Process Suggestion
+about: Propose extra test coverage or process improvements (not a defect)
+title: "[Suggestion] "
 labels: ["enhancement"]
 assignees: ""
 ---
 
-## 背景
+## Context
 
-<!-- 为什么需要补充这条用例 / 这项改进 -->
+<!-- Why is this test case / improvement needed? -->
 
-## 具体内容
+## Proposal
 
-<!-- 用例步骤、建议的新流程、希望补充的覆盖点等 -->
+<!-- Test steps, new process, coverage gaps to close -->
 
-## 期望收益
+## Expected benefit
 
-<!-- 补充后能覆盖什么风险 -->
+<!-- What risk does this cover? -->
 
-## 补充信息
+## Additional information
 
-<!-- 截图、文档链接等 -->
+<!-- Screenshots, links to specs -->
