@@ -1,0 +1,138 @@
+name: 🐞 测试缺陷
+description: 提交在测试过程中发现的缺陷
+title: "[缺陷] "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢提交测试缺陷。请尽量填写完整，信息越全，定位和修复越快。
+        提交前请先搜索是否已存在相同问题。
+
+  - type: input
+    id: version
+    attributes:
+      label: 产品版本 / Build 号
+      description: 例如 v2.3.1 (build 1024)
+      placeholder: v2.3.1 (build 1024)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: env
+    attributes:
+      label: 测试环境
+      options:
+        - iOS
+        - Android
+        - Web - Chrome
+        - Web - Safari
+        - Web - 其他浏览器
+        - Windows 桌面端
+        - macOS 桌面端
+        - 服务端 / 接口
+        - 其他
+    validations:
+      required: true
+
+  - type: input
+    id: module
+    attributes:
+      label: 所属模块
+      description: 例如 登录、订单支付、消息推送
+      placeholder: 订单支付
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 严重级别
+      description: 级别定义见 README
+      options:
+        - P0 - 阻断（崩溃 / 主流程不可用 / 数据丢失）
+        - P1 - 严重（主要功能异常，无绕行方案）
+        - P2 - 一般（功能异常但有绕行方案）
+        - P3 - 轻微（UI / 文案 / 体验问题）
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: 缺陷类型
+      options:
+        - 功能错误
+        - 崩溃 / 闪退
+        - 性能问题
+        - UI / 交互
+        - 兼容性
+        - 安全
+        - 数据 / 接口
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      description: 请按 1. 2. 3. 逐条描述，包含前置条件和测试数据
+      placeholder: |
+        前置条件：已登录测试账号 test001
+        1. 进入「订单」页
+        2. 点击「立即支付」
+        3. 选择支付宝并确认
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期结果
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际结果
+    validations:
+      required: true
+
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: 复现概率
+      options:
+        - 必现 (10/10)
+        - 高 (~70%)
+        - 中 (~30%)
+        - 低 (<10%)
+        - 仅出现一次，暂无法复现
+    validations:
+      required: true
+
+  - type: textarea
+    id: attachment
+    attributes:
+      label: 截图 / 录屏
+      description: 直接拖拽图片到此处上传即可
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志 / 请求响应 / 其他补充信息
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 提交确认
+      options:
+        - label: 我已搜索过现有 Issue，确认不是重复提交
+          required: true
